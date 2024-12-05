@@ -1,0 +1,63 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="ComboFrameTemplate.lua"/>
+    <Texture name="BananaComboPointTemplate" file="Interface\Minimap\ObjectIcons" virtual="true">
+        <Size x="13" y="13" />
+        <TexCoords left="0.25" right="0.5" top="0" bottom="0.25"/>
+    </Texture>
+    <Frame name="BananaComboFrameTemplate" virtual="true">
+        <Size x="3" y="13" />
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground">
+                    <Color r="0" g="1" b="0" a="0" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="-2" y="2"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset x="2" y="-2"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentComboPoint1" inherits="BananaComboPointTemplate">
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentComboPoint2" inherits="BananaComboPointTemplate">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentComboPoint1" relativePoint="RIGHT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentComboPoint3" inherits="BananaComboPointTemplate">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentComboPoint2" relativePoint="RIGHT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentComboPoint4" inherits="BananaComboPointTemplate">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentComboPoint3" relativePoint="RIGHT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentComboPoint5" inherits="BananaComboPointTemplate">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentComboPoint4" relativePoint="RIGHT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

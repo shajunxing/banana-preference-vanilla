@@ -1,0 +1,18 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="Main.lua"/>
+    <Include file="UI.xml"/>
+    <Include file="LootFrame.xml"/>
+    <Include file="MainMenuBar.xml"/>
+    <Include file="Map.xml"/>
+    <Include file="Inventory.xml"/>
+    <Include file="StaticPopup.xml"/>
+    <Include file="UnitFrame.xml"/>
+    <Include file="HealthManaBarTemplate.xml"/>
+    <Include file="AuraFrameTemplate.xml"/>
+    <Include file="ComboFrameTemplate.xml"/>
+    <Include file="Nameplate.xml"/>
+    <Include file="Macros.xml"/>
+    <Include file="Debug.xml"/>
+    <Include file="TurtlePatch.xml"/>
+</Ui>

@@ -1,0 +1,8 @@
+## Interface: 11200
+## Title: Banana Preference
+## Title-zhCN: 香蕉偏好
+## Notes: Game UI Optimization
+## Notes-zhCN: 游戏界面优化
+## Version: 2.0.0
+
+Src\Main.xml

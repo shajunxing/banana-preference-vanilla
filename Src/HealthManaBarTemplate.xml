@@ -1,0 +1,67 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="HealthManaBarTemplate.lua"/>
+    <StatusBar name="BananaStatusBarTemplate" virtual="true">
+        <!-- BarTexture不支持TexCoords、Gradient等子属性，应该不是bug，因为StatusBar会保持Texture的百分比 -->
+        <BarTexture file="Interface\TargetingFrame\UI-StatusBar" />
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" inherits="TextStatusBarText" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </StatusBar>
+    <StatusBar name="BananaHealthBarTemplate" inherits="BananaStatusBarTemplate" virtual="true">
+        <BarColor r="0" g="1" b="0" a="1"/>
+    </StatusBar>
+    <StatusBar name="BananaManaBarTemplate" inherits="BananaStatusBarTemplate" virtual="true">
+        <BarColor r="0" g="0.2" b="1" a="1"/>
+    </StatusBar>
+    <Frame name="BananaHealthManaBarTemplate" virtual="true">
+        <Size x="128" y="13" />
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground">
+                    <Color r="0" g="0" b="0" a="1" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="-2" y="2"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset x="2" y="-2"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <StatusBar name="$parentHealthBar" inherits="BananaHealthBarTemplate" drawLayer="BACKGROUND">
+                <Size y="8" />
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset x="0" y="0"/>
+                    </Anchor>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+            </StatusBar>
+            <StatusBar name="$parentManaBar" inherits="BananaManaBarTemplate" drawLayer="BACKGROUND">
+                <Size y="4" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentHealthBar" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="-1"/>
+                    </Anchor>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentHealthBar" relativePoint="BOTTOMRIGHT">
+                        <Offset x="0" y="-1"/>
+                    </Anchor>
+                </Anchors>
+            </StatusBar>
+        </Frames>
+    </Frame>
+</Ui>

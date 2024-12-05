@@ -1,0 +1,179 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="Nameplate.lua"/>
+    <!-- level=5确保在TargetNameplate之上，4还是有部分交叠 -->
+    <Frame name="BananaPlayerNameplate" parent="WorldFrame" frameLevel="5" inherits="BananaHealthManaBarTemplate">
+        <Anchors>
+            <Anchor point="TOP" relativePoint="CENTER">
+                <Offset x="0" y="-96"/>
+            </Anchor>
+        </Anchors>
+        <Frames>
+            <Frame name="$parentBuffFrame" inherits="BananaAuraFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM">
+                        <Offset x="0" y="-5"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+            <Frame name="$parentDebuffFrame" inherits="BananaAuraFrameTemplate">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP">
+                        <Offset x="0" y="5"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                BananaHealthManaBar_Initialize(this, 'player')
+                local this_name = this:GetName()
+                local buff_frame = getglobal(this_name .. 'BuffFrame')
+                local debuff_frame = getglobal(this_name .. 'DebuffFrame')
+                BananaAuraFrame_Initialize(buff_frame, 'player', 'TOPLEFT', UnitBuff)
+                BananaAuraFrame_Initialize(debuff_frame, 'player', 'BOTTOMLEFT', UnitDebuff)
+                BananaBindUIParentToggle(this)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    <Frame name="BananaPetNameplate" parent="BananaPlayerNameplate" inherits="BananaHealthManaBarTemplate">
+        <Anchors>
+            <Anchor point="RIGHT" relativePoint="LEFT">
+                <Offset x="-12" y="0"/>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentHappiness" file="Interface\PetPaperDollFrame\UI-PetHappiness" hidden="false">
+                    <Size x="18" y="17"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativePoint="LEFT">
+                            <Offset x="-5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentBuffFrame" inherits="BananaAuraFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM">
+                        <Offset x="0" y="-5"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+            <Frame name="$parentDebuffFrame" inherits="BananaAuraFrameTemplate">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP">
+                        <Offset x="0" y="5"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                local width = 64
+                local icon_size = 17
+                this:SetWidth(width)
+                BananaHealthManaBar_Initialize(this, "pet")
+                this:RegisterEvent("UNIT_PET")
+                BananaSetShown(this, UnitExists("pet"))
+                local this_name = this:GetName()
+                local buff_frame = getglobal(this_name .. "BuffFrame")
+                local debuff_frame = getglobal(this_name .. "DebuffFrame")
+                buff_frame:SetWidth(width)
+                debuff_frame:SetWidth(width)
+                BananaAuraFrame_Initialize(buff_frame, "pet", "TOPLEFT", UnitBuff, false, icon_size)
+                BananaAuraFrame_Initialize(debuff_frame, "pet", "BOTTOMLEFT", UnitDebuff, false, icon_size)
+                this:RegisterEvent("UNIT_HAPPINESS")
+                BananaPetNameplate_UpdateHappiness()
+            </OnLoad>
+            <OnEvent>
+                -- BananaPrint(event, arg1)
+                if event == 'UNIT_PET' and arg1 == "player" then
+                    BananaSetShown(this, UnitExists("pet"))
+                    BananaPetNameplate_UpdateHappiness() -- 两个事件都需要更新
+                elseif event == 'UNIT_HAPPINESS' and arg1 == "pet" then
+                    BananaPetNameplate_UpdateHappiness()
+                end
+            </OnEvent>
+        </Scripts>
+    </Frame>
+    <!-- 必须另立字体才能设置大小，貌似字体有最大值 -->
+    <Font name="BananaPercentFont" font="Fonts\ARIALN.TTF" outline="THICK" virtual="true" >
+        <FontHeight val="102"/>
+    </Font>
+    <!-- 系统姓名板的level是1，其中血条的level是2，必须至少3才能覆盖血条 -->
+    <Frame name="BananaTargetNameplate" parent="WorldFrame" frameLevel="3" inherits="BananaHealthManaBarTemplate" hidden="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <FontString name="$parentHealthPercent" inherits="BananaPercentFont">
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT">
+                            <Offset x="20" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <Texture name="$parentPortrait" file="Interface\Glues\CharacterCreate\UI-CharacterCreate-Classes">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativePoint="LEFT">
+                            <Offset x="-24" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentBuffFrame" inherits="BananaAuraFrameTemplate">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP">
+                        <Offset x="0" y="22"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+            <Frame name="$parentDebuffFrame" inherits="BananaAuraFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM">
+                        <Offset x="0" y="-18"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+            <Frame name="$parentComboFrame" inherits="BananaComboFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM">
+                        <Offset x="0" y="-2"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                BananaHealthManaBar_Initialize(this, 'target')
+                local this_name = this:GetName()
+                getglobal(this_name .. 'HealthBarText'):Show()
+                local buff_frame = getglobal(this_name .. 'BuffFrame')
+                local debuff_frame = getglobal(this_name .. 'DebuffFrame')
+                BananaAuraFrame_Initialize(buff_frame, 'target', 'BOTTOMLEFT', UnitBuff)
+                BananaAuraFrame_Initialize(debuff_frame, 'target', 'TOPLEFT', UnitDebuff)
+                local health_bar = getglobal(this_name .. "HealthBar")
+                health_bar:SetScript("OnValueChanged", function()
+                    BananaTargetNameplate_UpdateHealthPercent(health_bar)
+                end)
+                BananaTargetNameplate_UpdateHealthPercent(health_bar) -- 注意this是全局变量不要变
+                this:RegisterEvent("PLAYER_TARGET_CHANGED") -- this如果变了这一句当然就
+                BananaComboFrame_Initialize(getglobal(this_name .. "ComboFrame"))
+                -- 如果mana=0那么隐藏mana bar
+                local self = this
+                getglobal(this_name .. "ManaBar"):SetScript("OnValueChanged", function()
+                    BananaHealthManaBar_Update(self)
+                end)
+            </OnLoad>
+            <OnEvent>
+                if event == "PLAYER_TARGET_CHANGED" then
+                    BananaTargetNameplate_UpdatePortrait(this)
+                end
+            </OnEvent>
+        </Scripts>
+    </Frame>
+</Ui>

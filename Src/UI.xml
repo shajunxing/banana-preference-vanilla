@@ -1,0 +1,83 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="UI.lua"/>
+    <Frame name="BananaHUDFrame" parent="WorldFrame" setAllPoints="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentCrosshairTop">
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                        <Anchor point="BOTTOM" relativePoint="CENTER"/>
+                    </Anchors>
+                    <Gradient orientation="VERTICAL">
+                        <MinColor r="1" g="1" b="1" a="0" />
+                        <MaxColor r="1" g="1" b="1" a="1" />
+                    </Gradient>
+                </Texture>
+                <Texture name="$parentCrosshairBottom">
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="CENTER"/>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                    <Gradient orientation="VERTICAL">
+                        <MinColor r="1" g="1" b="1" a="1" />
+                        <MaxColor r="1" g="1" b="1" a="0" />
+                    </Gradient>
+                </Texture>
+                <Texture name="$parentCrosshairLeft">
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                        <Anchor point="RIGHT" relativePoint="CENTER"/>
+                    </Anchors>
+                    <Gradient orientation="HORIZONTAL">
+                        <MinColor r="1" g="1" b="1" a="1" />
+                        <MaxColor r="1" g="1" b="1" a="0" />
+                    </Gradient>
+                </Texture>
+                <Texture name="$parentCrosshairRight">
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="CENTER"/>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                    <Gradient orientation="HORIZONTAL">
+                        <MinColor r="1" g="1" b="1" a="0" />
+                        <MaxColor r="1" g="1" b="1" a="1" />
+                    </Gradient>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                BananaHUDFrame_OnLoad()
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    <Button name="BananaFullscreenToggleButton" parent="UIParent">
+        <Size x="32" y="32"/>
+        <Anchors>
+            <Anchor point="TOPRIGHT">
+                <Offset x="0" y="-32"/>
+            </Anchor>
+        </Anchors>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+        <Scripts>
+            <OnLoad>
+                BananaFullscreenToggleButton_UpdateTextures()
+			</OnLoad>
+            <OnClick>
+                PlaySound("UChatScrollButton")
+                SetCVar("gxWindow", "1")
+                SetCVar("gxMaximize", GetCVar("gxMaximize") == "1" and "0" or "1")
+                ConsoleExec("gxRestart")
+                BananaFullscreenToggleButton_UpdateTextures()
+			</OnClick>
+            <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_LEFT");
+                GameTooltip:SetText(BANANA_TOGGLE_FULLSCREEN);
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+        </Scripts>
+    </Button>
+</Ui>
